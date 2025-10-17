@@ -39,4 +39,4 @@ npm run dev
 - Node.js + Express
 - Socket.io для WebSocket
 - Bybit WebSocket API
-- Vanilla JavaScript на фронтенде
+- Vanilla JavaScript на фронтенде"# web" 
