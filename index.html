@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoodXchanger</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: rgb(101, 168, 254);
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            background: rgb(101, 168, 254);
+            padding: 10px 20px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .language-switcher {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .lang-btn {
+            padding: 8px 12px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
+            background: transparent;
+            color: #fff;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .lang-btn.active {
+            background: #fff;
+            color: rgb(101, 168, 254);
+            border-color: #fff;
+        }
+
+        .feedback-btn {
+            padding: 10px 20px;
+            border: 2px solid #fff;
+            border-radius: 8px;
+            background: #fff;
+            color: rgb(101, 168, 254);
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .feedback-btn:hover {
+            background: rgba(255, 255, 255, 0.9);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            height: 120px;
+            width: auto;
+        }
+
+
+
+        .nav-info {
+            font-size: 0.9em;
+            color: #ccc;
+        }
+
+        .main-content {
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 40px;
+            min-height: calc(100vh - 140px);
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .left-column {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            max-width: 800px;
+        }
+
+        .rates-section {
+            flex: 0 0 300px;
+        }
+
+        .cities-info-section {
+            width: 100%;
+            margin-bottom: 30px;
+        }
+
+        .cities-info-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px 30px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .cities-info-text {
+            color: #fff;
+            font-size: 1.1em;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .exchange-section {
+            display: flex;
+            justify-content: center;
+        }
+
+        .exchange-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            height: fit-content;
+        }
+
+        .exchange-title {
+            font-size: 1.6em;
+            font-weight: bold;
+            color: #111;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .currency-input {
+            margin-bottom: 20px;
+        }
+
+        .currency-label {
+            display: block;
+            font-weight: 600;
+            color: #222;
+            margin-bottom: 8px;
+            font-size: 1.05em;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .currency-select {
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            background: #fff;
+            color: #333;
+            min-width: 140px;
+            cursor: pointer;
+        }
+
+        .currency-select:focus {
+            outline: none;
+            border-color: rgb(101, 168, 254);
+        }
+
+        .currency-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            color: #222;
+            font-weight: 500;
+        }
+
+        .currency-option:hover {
+            background-color: #f0f0f0;
+            color: #000;
+        }
+
+        .currency-icon-small {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+
+        .custom-select {
+            position: relative;
+            display: inline-block;
+        }
+
+        .select-display {
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            background: #fff;
+            color: #222;
+            min-width: 140px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: space-between;
+            font-weight: 500;
+        }
+
+        .select-display:focus {
+            outline: none;
+            border-color: rgb(101, 168, 254);
+        }
+
+        .select-content {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .select-arrow {
+            font-size: 0.8em;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .select-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: #fff;
+            border: 2px solid #e0e0e0;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+        }
+
+        .amount-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            background: #fff;
+            color: #222;
+            font-weight: 500;
+        }
+
+        .amount-input:focus {
+            outline: none;
+            border-color: rgb(101, 168, 254);
+        }
+
+        .exchange-arrow {
+            text-align: center;
+            margin: 15px 0;
+            font-size: 1.5em;
+            color: rgb(101, 168, 254);
+        }
+
+
+
+        .result-display {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.2em;
+            color: #111;
+            font-weight: 600;
+            border: 1px solid #e9ecef;
+        }
+
+        .telegram-link {
+            margin-top: 15px;
+            text-align: center;
+            padding: 8px 16px;
+            background: #0088cc;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            width: auto;
+        }
+
+        .telegram-link:hover {
+            background: #006699;
+            transform: translateY(-1px);
+            box-shadow: 0 3px 8px rgba(0, 136, 204, 0.3);
+        }
+
+        .telegram-link a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .telegram-icon {
+            width: 16px;
+            height: 16px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+
+
+        .rates-container {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .rates-title {
+            color: #fff;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .rate-card {
+            background: #fff;
+            border-radius: 10px;
+            padding: 12px 16px;
+            border: none;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .rate-card.updated {
+            box-shadow: 0 4px 16px rgba(76, 175, 80, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .rate-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .coin-info {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .coin-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #444;
+        }
+
+        .symbol {
+            font-size: 0.95em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .price {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .rate-right {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            text-align: right;
+            font-size: 0.75em;
+        }
+
+        .change {
+            font-weight: bold;
+        }
+
+        .change.positive {
+            color: #4CAF50;
+        }
+
+        .change.negative {
+            color: #f44336;
+        }
+
+        .high-low {
+            color: #666;
+        }
+
+        .loading {
+            text-align: center;
+            font-size: 1.2em;
+            color: #fff;
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Адаптивность */
+        @media (max-width: 1024px) {
+            .main-content {
+                flex-direction: column;
+                align-items: center;
+                gap: 30px;
+            }
+
+            .left-column {
+                max-width: 100%;
+                order: 1;
+            }
+
+            .rates-section {
+                flex: none;
+                width: 100%;
+                max-width: 500px;
+                order: 2;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 15px;
+            }
+
+            .exchange-card,
+            .info-card {
+                padding: 25px;
+            }
+
+            .left-column {
+                gap: 25px;
+            }
+
+            .rates-section {
+                max-width: 100%;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+
+            .footer-right {
+                justify-content: center;
+                gap: 15px;
+            }
+
+            .footer-logo {
+                height: 50px;
+            }
+        }
+
+        /* Информационный блок */
+        .info-section {
+            width: 100%;
+        }
+
+        .info-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+        }
+
+        .info-title {
+            font-size: 2em;
+            font-weight: bold;
+            color: #111;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .info-description {
+            font-size: 1.1em;
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .advantages-title {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #111;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .advantages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .advantage-item {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid rgb(101, 168, 254);
+        }
+
+        .advantage-title {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #111;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .advantage-text {
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .currencies-section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .currencies-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #111;
+            margin-bottom: 10px;
+        }
+
+        .currencies-text {
+            color: #555;
+            line-height: 1.5;
+        }
+
+        /* Футер */
+        .footer {
+            background: rgb(101, 168, 254);
+            padding: 30px 20px;
+            margin-top: 40px;
+            border-top: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .footer-logo {
+            height: 60px;
+            width: auto;
+        }
+
+        .footer-right {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        .footer-telegram {
+            padding: 10px 20px;
+            border: 2px solid #fff;
+            border-radius: 8px;
+            background: transparent;
+            color: #fff;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-telegram:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .footer-telegram-icon {
+            width: 18px;
+            height: 18px;
+        }
+
+        .footer-feedback-btn {
+            padding: 10px 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            background: transparent;
+            color: #fff;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .footer-feedback-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .footer-feedback-btn.active {
+            background: #fff;
+            color: rgb(101, 168, 254);
+            border-color: #fff;
+        }
+
+        .footer-language-switcher {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .footer-lang-btn {
+            padding: 8px 12px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
+            background: transparent;
+            color: #fff;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .footer-lang-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .footer-lang-btn.active {
+            background: #fff;
+            color: rgb(101, 168, 254);
+            border-color: #fff;
+        }
+
+        /* Модальное окно */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 25px;
+            border-bottom: 1px solid #e0e0e0;
+            background: rgb(101, 168, 254);
+            border-radius: 15px 15px 0 0;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            color: #fff;
+            font-size: 1.3em;
+            font-weight: 600;
+        }
+
+        .close-btn {
+            color: #fff;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 1;
+            transition: color 0.3s ease;
+        }
+
+        .close-btn:hover {
+            color: #f0f0f0;
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 1em;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: inherit;
+            transition: border-color 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: rgb(101, 168, 254);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+            margin-top: 25px;
+        }
+
+        .btn-cancel,
+        .btn-submit {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-cancel {
+            background: #f8f9fa;
+            color: #666;
+            border: 2px solid #e0e0e0;
+        }
+
+        .btn-cancel:hover {
+            background: #e9ecef;
+            border-color: #ccc;
+        }
+
+        .btn-submit {
+            background: rgb(101, 168, 254);
+            color: #fff;
+            border: 2px solid rgb(101, 168, 254);
+        }
+
+        .btn-submit:hover {
+            background: rgb(81, 148, 234);
+            border-color: rgb(81, 148, 234);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(101, 168, 254, 0.3);
+        }
+
+        .btn-submit:disabled {
+            background: #ccc;
+            border-color: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Адаптивность для модального окна */
+        @media (max-width: 768px) {
+            .modal-content {
+                margin: 10% auto;
+                width: 95%;
+            }
+
+            .modal-header,
+            .modal-body {
+                padding: 20px;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .btn-cancel,
+            .btn-submit {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="logo-container">
+                <img src="logo.png" alt="Logo" class="logo">
+            </div>
+            <div class="navbar-right">
+                <button class="feedback-btn" data-i18n="leave-feedback">
+                    Leave Feedback
+                </button>
+                <div class="language-switcher">
+                    <button class="lang-btn" data-lang="ru">RU</button>
+                    <button class="lang-btn active" data-lang="en">EN</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <div class="left-column">
+            <div class="cities-info-section">
+                <div class="cities-info-card">
+                    <p class="cities-info-text" data-i18n="cities-info">
+                        Мы работаем во многих городах. Узнайте, есть ли в вашем городе пункт обмена, и оформите заявку, написав нам в Telegram.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="exchange-section">
+                <div class="exchange-card">
+                    <h2 class="exchange-title" data-i18n="exchange-title">Currency Exchange</h2>
+
+                    <div class="currency-input">
+                        <label class="currency-label" data-i18n="you-send">You Send</label>
+                        <div class="input-group">
+                            <div class="custom-select" id="fromCurrencySelect">
+                                <div class="select-display" tabindex="0">
+                                    <div class="select-content">
+                                        <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIiBmaWxsPSIjNjY2Ii8+Cjx0ZXh0IHg9IjEwIiB5PSIxNCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEwIiBmaWxsPSIjZmZmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4kPC90ZXh0Pgo8L3N2Zz4K"
+                                            class="currency-icon-small" id="fromCurrencyIcon">
+                                        <span id="fromCurrencyText">USD</span>
+                                    </div>
+                                    <span class="select-arrow">▼</span>
+                                </div>
+                                <div class="select-dropdown" id="fromCurrencyDropdown"></div>
+                            </div>
+                            <input type="number" id="fromAmount" class="amount-input"
+                                data-i18n-placeholder="enter-amount" placeholder="Enter amount" step="0.00000001">
+                        </div>
+                    </div>
+
+                    <div class="exchange-arrow">↓</div>
+
+                    <div class="currency-input">
+                        <label class="currency-label" data-i18n="you-get">You Get</label>
+                        <div class="input-group">
+                            <div class="custom-select" id="toCurrencySelect">
+                                <div class="select-display" tabindex="0">
+                                    <div class="select-content">
+                                        <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIiBmaWxsPSIjNjY2Ii8+Cjx0ZXh0IHg9IjEwIiB5PSIxNCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEwIiBmaWxsPSIjZmZmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4kPC90ZXh0Pgo8L3N2Zz4K"
+                                            class="currency-icon-small" id="toCurrencyIcon">
+                                        <span id="toCurrencyText">USD</span>
+                                    </div>
+                                    <span class="select-arrow">▼</span>
+                                </div>
+                                <div class="select-dropdown" id="toCurrencyDropdown"></div>
+                            </div>
+                            <input type="number" id="toAmount" class="amount-input" data-i18n-placeholder="result"
+                                placeholder="Result" readonly>
+                        </div>
+                    </div>
+
+                    <div class="result-display" id="exchangeResult" data-i18n="enter-amount-calc">
+                        Enter amount to calculate
+                    </div>
+
+                    <div style="text-align: center;">
+                        <div class="telegram-link">
+                            <a href="https://t.me/Goodxchangermanager" target="_blank">
+                                <img src="tg.png" alt="Telegram" class="telegram-icon">
+                                <span>Telegram</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <div class="info-card">
+                    <h2 class="info-title" data-i18n="info-title">GoodXchanger - надежный обмен криптовалют</h2>
+                    <p class="info-description" data-i18n="info-description">
+                        GoodXchanger - сервис для обмена цифровых активов, где вы можете быстро и выгодно обменять
+                        криптовалюту.
+                        Мы предлагаем простой и безопасный способ работы с цифровыми валютами.
+                    </p>
+
+                    <h3 class="advantages-title" data-i18n="advantages-title">Наши преимущества:</h3>
+
+                    <div class="advantages-grid">
+                        <div class="advantage-item">
+                            <div class="advantage-title">
+                                ⚡ <span data-i18n="advantage-speed-title">Оперативность</span>
+                            </div>
+                            <div class="advantage-text" data-i18n="advantage-speed-text">
+                                Автоматизированный процесс обмена. Большинство операций выполняется за 5-15 минут.
+                            </div>
+                        </div>
+
+                        <div class="advantage-item">
+                            <div class="advantage-title">
+                                💰 <span data-i18n="advantage-rates-title">Честные курсы</span>
+                            </div>
+                            <div class="advantage-text" data-i18n="advantage-rates-text">
+                                Мы предлагаем выгодные курсы без скрытых комиссий.
+                            </div>
+                        </div>
+
+                        <div class="advantage-item">
+                            <div class="advantage-title">
+                                🔒 <span data-i18n="advantage-security-title">Безопасность</span>
+                            </div>
+                            <div class="advantage-text" data-i18n="advantage-security-text">
+                                Ваши средства защищены современными системами шифрования.
+                            </div>
+                        </div>
+
+                        <div class="advantage-item">
+                            <div class="advantage-title">
+                                🎧 <span data-i18n="advantage-support-title">Поддержка</span>
+                            </div>
+                            <div class="advantage-text" data-i18n="advantage-support-text">
+                                Наша служба поддержки работает круглосуточно и готова помочь по любым вопросам.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="currencies-section">
+                        <div class="currencies-title" data-i18n="currencies-title">Доступные валюты</div>
+                        <div class="currencies-text" data-i18n="currencies-text">
+                            Работаем с Bitcoin, Ethereum, USDT, USDC, Litecoin и другими криптовалютами.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="rates-section">
+            <div class="rates-title" data-i18n="rates-title">Exchange Rates</div>
+            <div id="rates-container" class="rates-container">
+                <div class="loading" data-i18n="loading-rates">Loading exchange rates...</div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo-container">
+                <img src="logo.png" alt="Logo" class="footer-logo">
+            </div>
+            <div class="footer-right">
+                <a href="https://t.me/Goodxchangermanager" target="_blank" class="footer-telegram">
+                    <img src="tg.png" alt="Telegram" class="footer-telegram-icon">
+                    <span>Telegram</span>
+                </a>
+                <button class="footer-feedback-btn" data-i18n="leave-feedback">
+                    Leave Feedback
+                </button>
+                <div class="footer-language-switcher">
+                    <button class="footer-lang-btn" data-lang="ru">RU</button>
+                    <button class="footer-lang-btn active" data-lang="en">EN</button>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Модальное окно для отзыва -->
+    <div id="feedbackModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 data-i18n="feedback-title">Leave Feedback</h3>
+                <span class="close-btn">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="feedbackForm">
+                    <div class="form-group">
+                        <label for="feedbackName" data-i18n="feedback-name-label">Your Name:</label>
+                        <input type="text" id="feedbackName" name="name"
+                            data-i18n-placeholder="feedback-name-placeholder" placeholder="Enter your name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="feedbackTelegram" data-i18n="feedback-telegram-label">Telegram (optional):</label>
+                        <input type="text" id="feedbackTelegram" name="telegram"
+                            data-i18n-placeholder="feedback-telegram-placeholder" placeholder="@username or link">
+                    </div>
+                    <div class="form-group">
+                        <label for="feedbackText" data-i18n="feedback-text-label">Your Feedback:</label>
+                        <textarea id="feedbackText" name="feedback" rows="5"
+                            data-i18n-placeholder="feedback-text-placeholder"
+                            placeholder="Share your experience with us..." required></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-cancel" data-i18n="cancel">Cancel</button>
+                        <button type="submit" class="btn-submit" data-i18n="submit-feedback">Submit Feedback</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
