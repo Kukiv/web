@@ -1,0 +1,778 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: rgb(102, 168, 254);
+    min-height: 100vh;
+}
+
+.navbar {
+    background-color: rgb(102, 168, 254);
+    padding: 5px 0;
+    margin-bottom: 15px;
+}
+
+.navbar-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+@media (max-width: 768px) {
+    .navbar-content {
+        padding: 0 15px;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+}
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+@media (max-width: 768px) {
+    .navbar-right {
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+}
+
+.review-btn {
+    background: rgba(255,255,255,0.2);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+}
+
+@media (max-width: 768px) {
+    .review-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+}
+
+.review-btn:hover {
+    background: rgba(255,255,255,0.3);
+}
+
+.help-btn {
+    background: rgba(255,255,255,0.2);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+}
+
+@media (max-width: 768px) {
+    .help-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+}
+
+.help-btn:hover {
+    background: rgba(255,255,255,0.3);
+}
+
+.language-switcher {
+    display: flex;
+    gap: 10px;
+}
+
+.lang-btn {
+    background: rgba(255,255,255,0.2);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+}
+
+@media (max-width: 768px) {
+    .lang-btn {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+}
+
+.lang-btn:hover {
+    background: rgba(255,255,255,0.3);
+}
+
+.lang-btn.active {
+    background: rgba(255,255,255,0.4);
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+    background-color: white;
+    margin: 5% auto;
+    padding: 30px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+}
+
+@media (max-width: 768px) {
+    .modal-content {
+        margin: 10% auto;
+        padding: 20px;
+        width: 95%;
+        border-radius: 10px;
+    }
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    position: absolute;
+    right: 15px;
+    top: 10px;
+}
+
+.close:hover {
+    color: #000;
+}
+
+.modal-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+}
+
+.form-input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.form-textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 16px;
+    min-height: 120px;
+    resize: vertical;
+    box-sizing: border-box;
+}
+
+.submit-btn {
+    background: rgb(102, 168, 254);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.2s ease;
+}
+
+.submit-btn:hover {
+    background: rgb(82, 148, 234);
+}
+
+.help-content {
+    text-align: center;
+    padding: 20px 0;
+}
+
+.help-content p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+.help-telegram-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgb(102, 168, 254);
+    color: white;
+    text-decoration: none;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+}
+
+.help-telegram-btn:hover {
+    background: rgb(82, 148, 234);
+}
+
+.help-telegram-btn .telegram-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.footer {
+    background-color: rgb(102, 168, 254);
+    padding: 30px 0;
+    margin-top: 50px;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.footer-logo {
+    height: 60px;
+    width: auto;
+}
+
+.footer-buttons {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.footer-btn {
+    background: rgba(255,255,255,0.2);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.footer-btn:hover {
+    background: rgba(255,255,255,0.3);
+}
+
+.footer-telegram-icon {
+    width: 18px;
+    height: 18px;
+}
+
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #ff4757;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(255, 71, 87, 0.3);
+    z-index: 1001;
+    font-size: 14px;
+    font-weight: bold;
+    transform: translateX(400px);
+    transition: transform 0.3s ease;
+    max-width: 300px;
+}
+
+.notification.show {
+    transform: translateX(0);
+}
+
+.notification.success {
+    background: #2ed573;
+    box-shadow: 0 4px 15px rgba(46, 213, 115, 0.3);
+}
+
+.notification.warning {
+    background: #ffa502;
+    box-shadow: 0 4px 15px rgba(255, 165, 2, 0.3);
+}
+
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .notification {
+        right: 10px;
+        left: 10px;
+        max-width: none;
+        transform: translateY(-100px);
+    }
+    
+    .notification.show {
+        transform: translateY(0);
+    }
+}
+
+.logo {
+    height: 100px;
+    width: auto;
+    margin-right: 15px;
+}
+
+@media (max-width: 768px) {
+    .logo {
+        height: 60px;
+        margin-right: 10px;
+    }
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0 15px;
+    }
+}
+
+.main-content {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        flex-direction: column;
+        gap: 20px;
+    }
+}
+
+.left-column {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.exchanger-section {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+
+@media (max-width: 768px) {
+    .exchanger-section {
+        padding: 20px;
+        border-radius: 15px;
+    }
+}
+
+.rates-section {
+    flex: 1;
+    min-width: 280px;
+    max-width: 320px;
+}
+
+@media (max-width: 768px) {
+    .rates-section {
+        min-width: auto;
+        max-width: none;
+        width: 100%;
+    }
+}
+
+.section-title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.info-text {
+    color: white;
+    font-size: 16px;
+    line-height: 1.5;
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 15px;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (max-width: 768px) {
+    .info-text {
+        font-size: 14px;
+        padding: 10px;
+        min-height: 60px;
+    }
+}
+
+.rates-header {
+    background-color: rgba(255,255,255,0.1);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (max-width: 768px) {
+    .rates-header {
+        padding: 10px;
+        min-height: 60px;
+    }
+}
+
+.rates-title {
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.advantages-section {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+
+@media (max-width: 768px) {
+    .advantages-section {
+        padding: 20px;
+        border-radius: 15px;
+    }
+}
+
+.advantages-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.advantage-intro {
+    font-size: 16px;
+    color: #666;
+    line-height: 1.6;
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 0 20px;
+}
+
+.advantages-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 20px;
+}
+
+@media (max-width: 768px) {
+    .advantages-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        gap: 15px;
+    }
+}
+
+.advantage-item {
+    text-align: left;
+}
+
+.advantage-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.advantage-subtitle {
+    font-size: 14px;
+    color: #666;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.advantage-text {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.4;
+}
+
+.exchanger-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.currency-input-group {
+    display: flex;
+    gap: 80px;
+    align-items: end;
+}
+
+@media (max-width: 768px) {
+    .currency-input-group {
+        flex-direction: column;
+        gap: 15px;
+        align-items: stretch;
+    }
+}
+
+.input-field {
+    flex: 1;
+}
+
+.input-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+}
+
+.currency-select {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    font-size: 16px;
+    background: white;
+    cursor: pointer;
+}
+
+.currency-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+}
+
+.select-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+.amount-input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.exchange-info {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 20px 0;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.info-row:last-child {
+    margin-bottom: 0;
+    font-weight: bold;
+    border-top: 1px solid #e0e0e0;
+    padding-top: 8px;
+}
+
+.exchange-button {
+    background: rgb(102, 168, 254);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    justify-content: center;
+    text-decoration: none;
+    width: auto;
+    margin: 0 auto;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.exchange-button:hover {
+    background: rgb(82, 148, 234);
+}
+
+.telegram-icon {
+    width: 18px;
+    height: 18px;
+}
+
+.crypto-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.crypto-card {
+    background: white;
+    border-radius: 8px;
+    padding: 8px 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.2s ease;
+    width: 100%;
+}
+
+.crypto-card:hover {
+    transform: translateY(-2px);
+}
+
+.currency-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.crypto-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    flex: 1;
+}
+
+.crypto-symbol {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+}
+
+.crypto-main-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 6px;
+}
+
+.crypto-price {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+.crypto-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    text-align: right;
+    font-size: 10px;
+}
+
+.crypto-change {
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.crypto-max {
+    font-size: 10px;
+    color: #666;
+}
+
+.crypto-min {
+    font-size: 10px;
+    color: #666;
+}
+
+.positive { color: #4CAF50; }
+.negative { color: #f44336; }
+
+.loading {
+    text-align: center;
+    font-size: 18px;
+    color: white;
+    background-color: rgba(255,255,255,0.1);
+    padding: 20px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+}
+
+.last-update {
+    text-align: center;
+    margin-top: 20px;
+    color: white;
+    font-size: 14px;
+    background-color: rgba(255,255,255,0.1);
+    padding: 10px;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+}

@@ -5,601 +5,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>GoodXchanger</title>
     <link rel="icon" type="image/png" href="logo.png">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: Arial, sans-serif;
-            background-color: rgb(102, 168, 254);
-            min-height: 100vh;
-        }
-        
-        .navbar {
-            background-color: rgb(102, 168, 254);
-            padding: 5px 0;
-            margin-bottom: 15px;
-        }
-        
-        .navbar-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        
-        .navbar-right {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .review-btn {
-            background: rgba(255,255,255,0.2);
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: bold;
-            transition: background-color 0.2s ease;
-        }
-        
-        .review-btn:hover {
-            background: rgba(255,255,255,0.3);
-        }
-        
-        .language-switcher {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .lang-btn {
-            background: rgba(255,255,255,0.2);
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: bold;
-            transition: background-color 0.2s ease;
-        }
-        
-        .lang-btn:hover {
-            background: rgba(255,255,255,0.3);
-        }
-        
-        .lang-btn.active {
-            background: rgba(255,255,255,0.4);
-        }
-        
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-        }
-        
-        .modal-content {
-            background-color: white;
-            margin: 5% auto;
-            padding: 30px;
-            border-radius: 15px;
-            width: 90%;
-            max-width: 500px;
-            position: relative;
-        }
-        
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-            position: absolute;
-            right: 15px;
-            top: 10px;
-        }
-        
-        .close:hover {
-            color: #000;
-        }
-        
-        .modal-title {
-            font-size: 24px;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #333;
-        }
-        
-        .form-input {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 16px;
-            box-sizing: border-box;
-        }
-        
-        .form-textarea {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 16px;
-            min-height: 120px;
-            resize: vertical;
-            box-sizing: border-box;
-        }
-        
-        .submit-btn {
-            background: rgb(102, 168, 254);
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            width: 100%;
-            transition: background-color 0.2s ease;
-        }
-        
-        .submit-btn:hover {
-            background: rgb(82, 148, 234);
-        }
-        
-        .footer {
-            background-color: rgb(102, 168, 254);
-            padding: 30px 0;
-            margin-top: 50px;
-        }
-        
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-        
-        .footer-logo {
-            height: 60px;
-            width: auto;
-        }
-        
-        .footer-buttons {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-        
-        .footer-btn {
-            background: rgba(255,255,255,0.2);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: bold;
-            transition: background-color 0.2s ease;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .footer-btn:hover {
-            background: rgba(255,255,255,0.3);
-        }
-        
-        .footer-telegram-icon {
-            width: 18px;
-            height: 18px;
-        }
-        
-        @media (max-width: 768px) {
-            .footer-content {
-                flex-direction: column;
-                text-align: center;
-            }
-        }
-        
-        .logo {
-            height: 100px;
-            width: auto;
-            margin-right: 15px;
-        }
-        
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        .main-content {
-            display: flex;
-            gap: 30px;
-            align-items: flex-start;
-        }
-        
-        .left-column {
-            flex: 2;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        
-        .exchanger-section {
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-        }
-        
-        .rates-section {
-            flex: 1;
-            min-width: 280px;
-            max-width: 320px;
-        }
-        
-        .section-title {
-            font-size: 28px;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 25px;
-            text-align: center;
-        }
-        
-        .info-text {
-            color: white;
-            font-size: 16px;
-            line-height: 1.5;
-            text-align: center;
-            margin-bottom: 20px;
-            padding: 15px;
-            min-height: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .rates-header {
-            background-color: rgba(255,255,255,0.1);
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 20px;
-            min-height: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .rates-title {
-            color: white;
-            font-size: 20px;
-            font-weight: bold;
-            text-align: center;
-        }
-        
-        .advantages-section {
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-        }
-        
-        .advantages-title {
-            font-size: 24px;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        
-        .advantage-intro {
-            font-size: 16px;
-            color: #666;
-            line-height: 1.6;
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 0 20px;
-        }
-        
-        .advantages-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            grid-template-rows: repeat(3, 1fr);
-            gap: 20px;
-        }
-        
-        .advantage-item {
-            text-align: left;
-        }
-        
-        .advantage-title {
-            font-size: 16px;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 5px;
-        }
-        
-        .advantage-subtitle {
-            font-size: 14px;
-            color: #666;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-        
-        .advantage-text {
-            font-size: 14px;
-            color: #666;
-            line-height: 1.4;
-        }
-        
-        .exchanger-form {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-        
-        .currency-input-group {
-            display: flex;
-            gap: 15px;
-            align-items: end;
-        }
-        
-        .input-field {
-            flex: 1;
-        }
-        
-        .input-label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #333;
-        }
-        
-        .currency-select {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 16px;
-            background: white;
-            cursor: pointer;
-        }
-        
-        .currency-option {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px;
-        }
-        
-        .select-icon {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-        }
-        
-        .amount-input {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 18px;
-            font-weight: bold;
-        }
-        
-        .exchange-arrow {
-            align-self: center;
-            background: rgb(102, 168, 254);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            cursor: pointer;
-            font-size: 18px;
-            transition: transform 0.2s ease;
-        }
-        
-        .exchange-arrow:hover {
-            transform: rotate(180deg);
-        }
-        
-        .exchange-info {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 15px;
-            margin: 20px 0;
-        }
-        
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-        }
-        
-        .info-row:last-child {
-            margin-bottom: 0;
-            font-weight: bold;
-            border-top: 1px solid #e0e0e0;
-            padding-top: 8px;
-        }
-        
-        .exchange-button {
-            background: rgb(102, 168, 254);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            padding: 12px 24px;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            justify-content: center;
-            text-decoration: none;
-            width: auto;
-            margin: 0 auto;
-        }
-        
-        .button-container {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-        }
-        
-        .exchange-button:hover {
-            background: rgb(82, 148, 234);
-        }
-        
-        .telegram-icon {
-            width: 18px;
-            height: 18px;
-        }
-        
-        .crypto-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-        
-        .crypto-card {
-            background: white;
-            border-radius: 8px;
-            padding: 8px 12px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: transform 0.2s ease;
-            width: 100%;
-        }
-        
-        .crypto-card:hover {
-            transform: translateY(-2px);
-        }
-        
-        .currency-icon {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            flex-shrink: 0;
-        }
-        
-        .crypto-info {
-            display: flex;
-            flex-direction: column;
-            gap: 1px;
-            flex: 1;
-        }
-        
-        .crypto-symbol {
-            font-size: 14px;
-            font-weight: bold;
-            color: #333;
-        }
-        
-        .crypto-main-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 6px;
-        }
-        
-        .crypto-price {
-            font-size: 16px;
-            font-weight: bold;
-            color: #333;
-        }
-        
-        .crypto-stats {
-            display: flex;
-            flex-direction: column;
-            gap: 1px;
-            text-align: right;
-            font-size: 10px;
-        }
-        
-        .crypto-change {
-            font-size: 11px;
-            font-weight: bold;
-        }
-        
-        .crypto-max {
-            font-size: 10px;
-            color: #666;
-        }
-        
-        .crypto-min {
-            font-size: 10px;
-            color: #666;
-        }
-        
-        .positive { color: #4CAF50; }
-        .negative { color: #f44336; }
-        
-        .loading {
-            text-align: center;
-            font-size: 18px;
-            color: white;
-            background-color: rgba(255,255,255,0.1);
-            padding: 20px;
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-        }
-        
-        .last-update {
-            text-align: center;
-            margin-top: 20px;
-            color: white;
-            font-size: 14px;
-            background-color: rgba(255,255,255,0.1);
-            padding: 10px;
-            border-radius: 10px;
-            backdrop-filter: blur(10px);
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <nav class="navbar">
         <div class="navbar-content">
             <img src="logo.png" alt="Логотип" class="logo">
             <div class="navbar-right">
+                <button class="help-btn" onclick="openHelpModal()" id="help-btn">Помощь</button>
                 <button class="review-btn" onclick="openReviewModal()" id="review-btn">Оставить отзыв</button>
                 <div class="language-switcher">
                     <button class="lang-btn active" onclick="switchLanguage('ru')" id="lang-ru">RU</button>
@@ -631,6 +47,20 @@
         </div>
     </div>
 
+    <div id="helpModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeHelpModal()">&times;</span>
+            <h2 class="modal-title" id="help-modal-title">Помощь</h2>
+            <div class="help-content">
+                <p id="help-text">Для консультации и решения любых вопросов обращайтесь к нашим специалистам в Telegram.</p>
+                <a href="https://t.me/Goodxchangermanager" target="_blank" class="help-telegram-btn">
+                    <img src="tg.png" alt="Telegram" class="telegram-icon">
+                    <span id="help-telegram-text">Telegram</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <div class="main-content">
             <div class="left-column">
@@ -649,7 +79,7 @@
                                 <option value="">Выберите валюту</option>
                             </select>
                         </div>
-                        <button class="exchange-arrow" onclick="swapCurrencies()" title="Поменять местами">⇄</button>
+
                         <div class="input-field">
                             <label class="input-label">Получаете</label>
                             <select class="currency-select" id="toCurrency">
@@ -661,9 +91,9 @@
                     <div class="currency-input-group">
                         <div class="input-field">
                             <label class="input-label">Сумма</label>
-                            <input type="number" class="amount-input" id="fromAmount" placeholder="0.00" oninput="calculateExchange()">
+                            <input type="number" class="amount-input" id="fromAmount" placeholder="0.00" oninput="calculateExchangeDebounced()">
                         </div>
-                        <div style="width: 40px;"></div>
+
                         <div class="input-field">
                             <label class="input-label">К получению</label>
                             <input type="number" class="amount-input" id="toAmount" placeholder="0.00" readonly>
@@ -790,7 +220,14 @@
                 reviewLabel: 'Отзыв:',
                 submitBtn: 'Отправить отзыв',
                 footerTelegram: 'Telegram',
-                footerReview: 'Оставить отзыв'
+                footerHelp: 'Помощь',
+                footerReview: 'Оставить отзыв',
+                helpBtn: 'Помощь',
+                helpTitle: 'Помощь',
+                helpText: 'Для консультации и решения любых вопросов обращайтесь к нашим специалистам в Telegram.',
+                maxPrice: 'Макс:',
+                minPrice: 'Мин:',
+                sameCurrency: 'Нельзя обменивать одинаковые валюты'
             },
             en: {
                 infoText: 'Our exchange service operates in many cities and countries. To quickly check the availability of a location in your city and help with your application, contact us on Telegram.',
@@ -832,7 +269,14 @@
                 reviewLabel: 'Review:',
                 submitBtn: 'Submit Review',
                 footerTelegram: 'Telegram',
-                footerReview: 'Leave Review'
+                footerHelp: 'Help',
+                footerReview: 'Leave Review',
+                helpBtn: 'Help',
+                helpTitle: 'Help',
+                helpText: 'For consultation and solving any questions, contact our specialists in Telegram.',
+                maxPrice: 'Max:',
+                minPrice: 'Min:',
+                sameCurrency: 'Cannot exchange the same currencies'
             }
         };
         
@@ -876,7 +320,8 @@
             
             const selectDisplays = document.querySelectorAll('.custom-select-display');
             selectDisplays.forEach(display => {
-                if (display.querySelector('span') && display.querySelector('span').textContent.includes('валюту') || display.querySelector('span').textContent.includes('Currency')) {
+                const span = display.querySelector('span');
+                if (span && (span.textContent.includes('валюту') || span.textContent.includes('Currency') || span.textContent === translations.ru.selectCurrency || span.textContent === translations.en.selectCurrency)) {
                     display.innerHTML = `<span>${t.selectCurrency}</span>`;
                 }
             });
@@ -903,11 +348,38 @@
             if (reviewLabel) reviewLabel.textContent = t.reviewLabel;
             if (submitBtn) submitBtn.textContent = t.submitBtn;
             
+            const helpBtn = document.getElementById('help-btn');
+            const helpModalTitle = document.getElementById('help-modal-title');
+            const helpText = document.getElementById('help-text');
+            const helpTelegramText = document.getElementById('help-telegram-text');
+            
+            if (helpBtn) helpBtn.textContent = t.helpBtn;
+            if (helpModalTitle) helpModalTitle.textContent = t.helpTitle;
+            if (helpText) helpText.textContent = t.helpText;
+            if (helpTelegramText) helpTelegramText.textContent = t.telegramBtn;
+            
             const footerTelegramText = document.getElementById('footer-telegram-text');
+            const footerHelpText = document.getElementById('footer-help-text');
             const footerReviewText = document.getElementById('footer-review-text');
             
             if (footerTelegramText) footerTelegramText.textContent = t.footerTelegram;
+            if (footerHelpText) footerHelpText.textContent = t.footerHelp;
             if (footerReviewText) footerReviewText.textContent = t.footerReview;
+            
+            const fromSelect = document.getElementById('fromCurrency');
+            const toSelect = document.getElementById('toCurrency');
+            if (fromSelect && fromSelect.options[0] && fromSelect.options[0].value === '') {
+                fromSelect.options[0].textContent = t.selectCurrency;
+            }
+            if (toSelect && toSelect.options[0] && toSelect.options[0].value === '') {
+                toSelect.options[0].textContent = t.selectCurrency;
+            }
+            
+            if (currentCurrencies.length > 0) {
+                displayCryptoData(currentCurrencies);
+            }
+            
+            updateLastUpdateText();
         }
         
         function openReviewModal() {
@@ -917,6 +389,14 @@
         function closeReviewModal() {
             document.getElementById('reviewModal').style.display = 'none';
             document.getElementById('reviewForm').reset();
+        }
+        
+        function openHelpModal() {
+            document.getElementById('helpModal').style.display = 'block';
+        }
+        
+        function closeHelpModal() {
+            document.getElementById('helpModal').style.display = 'none';
         }
         
         function submitReview(event) {
@@ -930,23 +410,65 @@
             
             closeReviewModal();
         }
-        
+
+        function showNotification(message, type = 'error') {
+            const existingNotification = document.querySelector('.notification');
+            if (existingNotification) {
+                existingNotification.remove();
+            }
+            
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 100);
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.remove();
+                    }
+                }, 300);
+            }, 3000);
+        }
+
         window.onclick = function(event) {
-            const modal = document.getElementById('reviewModal');
-            if (event.target === modal) {
+            const reviewModal = document.getElementById('reviewModal');
+            const helpModal = document.getElementById('helpModal');
+            
+            if (event.target === reviewModal) {
                 closeReviewModal();
+            }
+            
+            if (event.target === helpModal) {
+                closeHelpModal();
             }
         }
 
         async function fetchCryptoData() {
             try {
-                const response = await fetch('api.php');
+                const response = await fetch('api.php', {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Cache-Control': 'no-cache'
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
                 const data = await response.json();
                 
                 if (data.success) {
                     displayCryptoData(data.data);
-                    document.getElementById('last-update').textContent = 
-                        'Последнее обновление: ' + new Date().toLocaleString('ru-RU');
+                    updateLastUpdateText();
                 } else {
                     document.getElementById('crypto-container').innerHTML = 
                         '<div class="loading">Ошибка загрузки данных</div>';
@@ -972,31 +494,46 @@
                 'dot': 'https://assets.coingecko.com/coins/images/12171/small/polkadot.png'
             };
             
-            return iconMap[cryptoSymbol] || null;
+            const iconUrl = iconMap[cryptoSymbol];
+            if (iconUrl) {
+                const img = new Image();
+                img.onerror = () => {
+                    console.warn(`Failed to load icon for ${cryptoSymbol}`);
+                };
+                img.src = iconUrl;
+            }
+            
+            return iconUrl || null;
         }
 
         function getFiatIcon(symbol) {
-            const fiatSymbol = symbol.split('/')[0].toLowerCase();
-            
-            const fiatIconMap = {
-                'rub': 'https://flagpedia.net/data/currency/webp/c32/rub.webp',
-                'uah': 'https://flagpedia.net/data/currency/webp/c32/uah.webp',
-                'eur': 'https://flagpedia.net/data/currency/webp/c32/eur.webp',
-                'usd': 'https://flagpedia.net/data/currency/webp/c32/usd.webp'
+            return null;
+        }
+
+        function getUSDTIcon(symbol) {
+            const usdtIconMap = {
+                'usdt trc20': 'https://assets.coingecko.com/coins/images/325/small/Tether.png',
+                'usdt ton': 'https://assets.coingecko.com/coins/images/17980/small/ton_symbol.png',
+                'usdt erc20': 'https://assets.coingecko.com/coins/images/279/small/ethereum.png',
+                'usdt bep20': 'https://assets.coingecko.com/coins/images/825/small/bnb-icon2_2x.png'
             };
             
-            return fiatIconMap[fiatSymbol] || null;
+            return usdtIconMap[symbol.toLowerCase()] || 'https://assets.coingecko.com/coins/images/325/small/Tether.png';
         }
 
         function getCurrencyIcon(symbol, type) {
             if (type === 'crypto') {
                 return getCryptoIcon(symbol);
+            } else if (type === 'usdt') {
+                return getUSDTIcon(symbol);
             } else {
                 return getFiatIcon(symbol);
             }
         }
 
         function displayCryptoData(currencies) {
+            currentCurrencies = currencies;
+            
             const container = document.getElementById('crypto-container');
             container.innerHTML = '';
 
@@ -1020,8 +557,8 @@
                 if (currency.high_24h && currency.low_24h) {
                     const highPrice = '$' + parseFloat(currency.high_24h).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 4});
                     const lowPrice = '$' + parseFloat(currency.low_24h).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 4});
-                    maxDisplay = `Макс: ${highPrice}`;
-                    minDisplay = `Мин: ${lowPrice}`;
+                    maxDisplay = `${translations[currentLanguage].maxPrice} ${highPrice}`;
+                    minDisplay = `${translations[currentLanguage].minPrice} ${lowPrice}`;
                 }
                 
                 const card = document.createElement('div');
@@ -1045,6 +582,8 @@
         }
 
         let currentRates = {};
+        let currentCurrencies = [];
+        let calculateTimeout = null;
 
         function createCustomSelect(selectId, currencies) {
             const select = document.getElementById(selectId);
@@ -1101,9 +640,14 @@
                 option.addEventListener('mouseleave', () => option.style.backgroundColor = 'white');
                 
                 const iconUrl = getCurrencyIcon(currency.symbol, currency.type);
-                if (iconUrl) {
+                if (iconUrl && !iconUrl.startsWith('data:')) {
                     option.innerHTML = `
-                        <img src="${iconUrl}" alt="${currency.symbol}" style="width: 20px; height: 20px; border-radius: 50%;" onerror="this.style.display='none'">
+                        <img src="${iconUrl}" alt="${currency.symbol}" style="width: 20px; height: 20px; border-radius: 50%;" onerror="this.parentElement.innerHTML='<span>${currency.symbol}</span>'">
+                        <span>${currency.symbol}</span>
+                    `;
+                } else if (iconUrl && iconUrl.startsWith('data:')) {
+                    option.innerHTML = `
+                        <img src="${iconUrl}" alt="${currency.symbol}" style="width: 20px; height: 20px; border-radius: 50%;">
                         <span>${currency.symbol}</span>
                     `;
                 } else {
@@ -1114,7 +658,11 @@
                     select.value = currency.symbol;
                     displayDiv.innerHTML = option.innerHTML;
                     dropdown.style.display = 'none';
-                    calculateExchange();
+                    
+                    const changeEvent = new Event('change', { bubbles: true });
+                    select.dispatchEvent(changeEvent);
+                    
+                    calculateExchangeDebounced();
                 });
                 
                 dropdown.appendChild(option);
@@ -1141,8 +689,11 @@
             const fromSelect = document.getElementById('fromCurrency');
             const toSelect = document.getElementById('toCurrency');
             
-            fromSelect.innerHTML = '<option value="">Выберите валюту</option>';
-            toSelect.innerHTML = '<option value="">Выберите валюту</option>';
+            const currentFromValue = fromSelect.value;
+            const currentToValue = toSelect.value;
+            
+            fromSelect.innerHTML = `<option value="">${translations[currentLanguage].selectCurrency}</option>`;
+            toSelect.innerHTML = `<option value="">${translations[currentLanguage].selectCurrency}</option>`;
             
             currencies.forEach(currency => {
                 currentRates[currency.symbol] = {
@@ -1161,40 +712,145 @@
                 toSelect.appendChild(option2);
             });
             
+            if (currentFromValue && fromSelect.querySelector(`option[value="${currentFromValue}"]`)) {
+                fromSelect.value = currentFromValue;
+            }
+            if (currentToValue && toSelect.querySelector(`option[value="${currentToValue}"]`)) {
+                toSelect.value = currentToValue;
+            }
+            
             if (!document.querySelector('.custom-select-wrapper')) {
                 createCustomSelect('fromCurrency', currencies);
                 createCustomSelect('toCurrency', currencies);
+                
+                setTimeout(() => {
+                    if (document.getElementById('fromAmount').value) {
+                        calculateExchange();
+                    }
+                }, 100);
+            } else {
+                const customSelects = document.querySelectorAll('.custom-select-display');
+                if (customSelects[0] && currentFromValue) {
+                    updateCustomSelectDisplayValue(customSelects[0], currentFromValue);
+                }
+                if (customSelects[1] && currentToValue) {
+                    updateCustomSelectDisplayValue(customSelects[1], currentToValue);
+                }
+            }
+            
+
+        }
+        
+        function updateCustomSelectDisplayValue(display, value) {
+            if (!value) return;
+            
+            const wrapper = display.parentElement;
+            const dropdown = wrapper.querySelector('.custom-select-dropdown');
+            if (dropdown) {
+                const options = dropdown.querySelectorAll('.custom-option');
+                const targetOption = Array.from(options).find(option => {
+                    const span = option.querySelector('span');
+                    return span && span.textContent === value;
+                });
+                
+                if (targetOption) {
+                    display.innerHTML = targetOption.innerHTML;
+                }
             }
         }
 
+        function updateLastUpdateText() {
+            const lastUpdateEl = document.getElementById('last-update');
+            if (lastUpdateEl) {
+                const t = translations[currentLanguage];
+                const locale = currentLanguage === 'ru' ? 'ru-RU' : 'en-US';
+                lastUpdateEl.textContent = t.lastUpdate + ' ' + new Date().toLocaleString(locale);
+            }
+        }
+
+        function calculateExchangeDebounced() {
+            if (calculateTimeout) {
+                clearTimeout(calculateTimeout);
+            }
+            
+            calculateTimeout = setTimeout(() => {
+                calculateExchange();
+            }, 100);
+        }
+
+        function formatSmartNumber(num) {
+            if (num === 0) return '0';
+            
+            if (Math.abs(num) >= 1) {
+                return num.toFixed(6).replace(/\.?0+$/, '');
+            }
+            
+            const str = num.toFixed(20);
+            const decimalPart = str.split('.')[1] || '';
+            
+            let firstSignificantIndex = -1;
+            for (let i = 0; i < decimalPart.length; i++) {
+                if (decimalPart[i] !== '0') {
+                    firstSignificantIndex = i;
+                    break;
+                }
+            }
+            
+            if (firstSignificantIndex === -1) return '0';
+            
+            const precision = firstSignificantIndex + 4;
+            return num.toFixed(Math.min(precision, 15)).replace(/\.?0+$/, '');
+        }
+
         function calculateExchange() {
-            const fromCurrency = document.getElementById('fromCurrency').value;
-            const toCurrency = document.getElementById('toCurrency').value;
-            const fromAmount = parseFloat(document.getElementById('fromAmount').value) || 0;
+            const fromCurrencyEl = document.getElementById('fromCurrency');
+            const toCurrencyEl = document.getElementById('toCurrency');
+            const fromAmountEl = document.getElementById('fromAmount');
+            const toAmountEl = document.getElementById('toAmount');
+            const exchangeInfoEl = document.getElementById('exchangeInfo');
+            
+            if (!fromCurrencyEl || !toCurrencyEl || !fromAmountEl || !toAmountEl || !exchangeInfoEl) {
+                return;
+            }
+            
+            const fromCurrency = fromCurrencyEl.value;
+            const toCurrency = toCurrencyEl.value;
+            const fromAmount = parseFloat(fromAmountEl.value) || 0;
             
             if (!fromCurrency || !toCurrency || fromAmount <= 0) {
-                document.getElementById('toAmount').value = '';
-                document.getElementById('exchangeInfo').style.display = 'none';
+                toAmountEl.value = '';
+                exchangeInfoEl.style.display = 'none';
                 return;
             }
             
             if (fromCurrency === toCurrency) {
-                document.getElementById('toAmount').value = fromAmount.toFixed(6);
-                document.getElementById('exchangeInfo').style.display = 'none';
+                toAmountEl.value = '';
+                exchangeInfoEl.style.display = 'none';
+                showNotification(translations[currentLanguage].sameCurrency || 'Нельзя обменивать одинаковые валюты', 'warning');
                 return;
             }
             
             const fromRateData = currentRates[fromCurrency];
             const toRateData = currentRates[toCurrency];
             
-            if (!fromRateData || !toRateData) return;
+            if (!fromRateData || !toRateData) {
+                return;
+            }
             
             const fromRate = fromRateData.rate;
             const toRate = toRateData.rate;
             
+            if (!fromRate || !toRate || fromRate <= 0 || toRate <= 0) {
+                toAmountEl.value = '';
+                exchangeInfoEl.style.display = 'none';
+                return;
+            }
+            
             let usdAmount;
-            if (fromCurrency.includes('/USD')) {
+            if (fromRateData.type === 'fiat') {
                 usdAmount = fromAmount * fromRate;
+            } else if (fromRateData.type === 'usdt') {
+                usdAmount = fromAmount;
             } else if (fromCurrency.includes('/USDT')) {
                 usdAmount = fromAmount * fromRate;
             } else {
@@ -1202,8 +858,10 @@
             }
             
             let finalAmount;
-            if (toCurrency.includes('/USD')) {
+            if (toRateData.type === 'fiat') {
                 finalAmount = usdAmount / toRate;
+            } else if (toRateData.type === 'usdt') {
+                finalAmount = usdAmount;
             } else if (toCurrency.includes('/USDT')) {
                 finalAmount = usdAmount / toRate;
             } else {
@@ -1212,20 +870,48 @@
             
             const amountAfterCommission = finalAmount * 0.985;
             
-            document.getElementById('toAmount').value = amountAfterCommission.toFixed(6);
-            document.getElementById('exchangeRate').textContent = `1 ${fromCurrency} = ${(amountAfterCommission / fromAmount).toFixed(6)} ${toCurrency}`;
-            document.getElementById('exchangeInfo').style.display = 'block';
+            if (!isFinite(amountAfterCommission) || amountAfterCommission <= 0) {
+                toAmountEl.value = '';
+                exchangeInfoEl.style.display = 'none';
+                return;
+            }
+            
+            toAmountEl.value = formatSmartNumber(amountAfterCommission);
+            
+            const exchangeRateEl = document.getElementById('exchangeRate');
+            if (exchangeRateEl) {
+                const rate = amountAfterCommission / fromAmount;
+                const formattedRate = formatSmartNumber(rate);
+                exchangeRateEl.textContent = `1 ${fromCurrency} = ${formattedRate} ${toCurrency}`;
+            }
+            
+            exchangeInfoEl.style.display = 'block';
         }
 
-        function swapCurrencies() {
-            const fromSelect = document.getElementById('fromCurrency');
-            const toSelect = document.getElementById('toCurrency');
-            
-            const temp = fromSelect.value;
-            fromSelect.value = toSelect.value;
-            toSelect.value = temp;
-            
-            calculateExchange();
+
+        
+        function updateCustomSelectDisplay(display, select) {
+            if (select.value && select.value !== '') {
+                const wrapper = display.parentElement;
+                const dropdown = wrapper.querySelector('.custom-select-dropdown');
+                if (dropdown) {
+                    const options = dropdown.querySelectorAll('.custom-option');
+                    const matchingOption = Array.from(options).find(option => {
+                        const span = option.querySelector('span');
+                        return span && span.textContent === select.value;
+                    });
+                    
+                    if (matchingOption) {
+                        display.innerHTML = matchingOption.innerHTML;
+                    } else {
+                        display.innerHTML = `<span>${select.value}</span>`;
+                    }
+                } else {
+                    display.innerHTML = `<span>${select.value}</span>`;
+                }
+            } else {
+                display.innerHTML = `<span>${translations[currentLanguage].selectCurrency}</span>`;
+            }
         }
 
         function performExchange() {
@@ -1247,8 +933,8 @@
             populateCurrencySelects(currencies);
         };
 
-        document.getElementById('fromCurrency').addEventListener('change', calculateExchange);
-        document.getElementById('toCurrency').addEventListener('change', calculateExchange);
+        document.getElementById('fromCurrency').addEventListener('change', calculateExchangeDebounced);
+        document.getElementById('toCurrency').addEventListener('change', calculateExchangeDebounced);
 
         fetchCryptoData();
 
@@ -1264,6 +950,10 @@
                     <img src="tg.png" alt="Telegram" class="footer-telegram-icon">
                     <span id="footer-telegram-text">Telegram</span>
                 </a>
+                
+                <button class="footer-btn" onclick="openHelpModal()" id="footer-help">
+                    <span id="footer-help-text">Помощь</span>
+                </button>
                 
                 <button class="footer-btn" onclick="openReviewModal()" id="footer-review">
                     <span id="footer-review-text">Оставить отзыв</span>

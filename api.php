@@ -2,6 +2,23 @@
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 
+
+function setupSecureCurl($ch, $url) {
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+    curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36');
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+    
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+    curl_setopt($ch, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_2);
+    
+    curl_setopt($ch, CURLOPT_PROTOCOLS, CURLPROTO_HTTPS);
+    curl_setopt($ch, CURLOPT_REDIR_PROTOCOLS, CURLPROTO_HTTPS);
+}
+
 $cryptoSymbols = [
     'BTCUSDT',
     'ETHUSDT', 
@@ -11,6 +28,13 @@ $cryptoSymbols = [
     'XRPUSDT',
     'DOGEUSDT',
     'DOTUSDT'
+];
+
+$usdtNetworks = [
+    'USDT TRC20' => 1.00,
+    'USDT TON' => 1.00,
+    'USDT ERC20' => 1.00,
+    'USDT BEP20' => 1.00
 ];
 
 $fiatSymbols = [
@@ -26,23 +50,25 @@ try {
     $cryptoUrl = 'https://api.bybit.com/v5/market/tickers?category=spot';
     
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $cryptoUrl);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 15);
-    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
-    curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36');
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+    setupSecureCurl($ch, $cryptoUrl);
     
     $cryptoResponse = curl_exec($ch);
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $sslVerifyResult = curl_getinfo($ch, CURLINFO_SSL_VERIFYRESULT);
+    $curlError = curl_error($ch);
     curl_close($ch);
+    
+    if ($sslVerifyResult !== 0) {
+        error_log("SSL verification failed for Bybit API: " . $sslVerifyResult);
+    }
+    if (!empty($curlError)) {
+        error_log("cURL error for Bybit API: " . $curlError);
+    }
     
     if ($httpCode === 200 && $cryptoResponse) {
         $cryptoData = json_decode($cryptoResponse, true);
         
         if ($cryptoData && $cryptoData['retCode'] === 0) {
-            // Фильтруем криптовалюты
             foreach ($cryptoData['result']['list'] as $ticker) {
                 if (in_array($ticker['symbol'], $cryptoSymbols)) {
                     $allData[] = [
@@ -61,24 +87,30 @@ try {
     $fiatUrl = 'https://api.exchangerate-api.com/v4/latest/USD';
     
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $fiatUrl);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-    curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36');
+    setupSecureCurl($ch, $fiatUrl);
     
     $fiatResponse = curl_exec($ch);
     $fiatHttpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $sslVerifyResult = curl_getinfo($ch, CURLINFO_SSL_VERIFYRESULT);
+    $curlError = curl_error($ch);
     curl_close($ch);
+    
+    if ($sslVerifyResult !== 0) {
+        error_log("SSL verification failed for Exchange Rate API: " . $sslVerifyResult);
+    }
+    if (!empty($curlError)) {
+        error_log("cURL error for Exchange Rate API: " . $curlError);
+    }
     
     if ($fiatHttpCode === 200 && $fiatResponse) {
         $fiatData = json_decode($fiatResponse, true);
         
         if ($fiatData && isset($fiatData['rates'])) {
             $fiatRates = [
-                'RUB/USD' => isset($fiatData['rates']['RUB']) ? 1 / $fiatData['rates']['RUB'] : 0,
-                'UAH/USD' => isset($fiatData['rates']['UAH']) ? 1 / $fiatData['rates']['UAH'] : 0,
-                'EUR/USD' => isset($fiatData['rates']['EUR']) ? 1 / $fiatData['rates']['EUR'] : 0,
-                'USD/USD' => 1.00
+                'RUB' => isset($fiatData['rates']['RUB']) ? 1 / $fiatData['rates']['RUB'] : 0,
+                'UAH' => isset($fiatData['rates']['UAH']) ? 1 / $fiatData['rates']['UAH'] : 0,
+                'EUR' => isset($fiatData['rates']['EUR']) ? 1 / $fiatData['rates']['EUR'] : 0,
+                'USD' => 1.00
             ];
             
             foreach ($fiatRates as $symbol => $rate) {
@@ -96,9 +128,23 @@ try {
         }
     }
     
+
+    foreach ($usdtNetworks as $symbol => $rate) {
+        $allData[] = [
+            'symbol' => $symbol,
+            'last_price' => number_format($rate, 2),
+            'price_24h_pcnt' => '0.00',
+            'high_24h' => null,
+            'low_24h' => null,
+            'type' => 'usdt'
+        ];
+    }
+    
     usort($allData, function($a, $b) use ($cryptoSymbols) {
+        $typeOrder = ['crypto' => 1, 'usdt' => 2, 'fiat' => 3];
+        
         if ($a['type'] !== $b['type']) {
-            return $a['type'] === 'crypto' ? -1 : 1;
+            return $typeOrder[$a['type']] - $typeOrder[$b['type']];
         }
         
         if ($a['type'] === 'crypto') {
