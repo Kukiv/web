@@ -1,10 +1,7 @@
 <?php
-// API для получения данных о криптовалютах и фиатных валютах
-
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 
-// Популярные криптовалюты для отображения
 $cryptoSymbols = [
     'BTCUSDT',
     'ETHUSDT', 
@@ -16,7 +13,6 @@ $cryptoSymbols = [
     'DOTUSDT'
 ];
 
-// Фиатные валюты к USD
 $fiatSymbols = [
     'RUBUSD',
     'UAHUSD', 
@@ -27,7 +23,6 @@ $fiatSymbols = [
 try {
     $allData = [];
     
-    // Получаем криптовалюты с Bybit
     $cryptoUrl = 'https://api.bybit.com/v5/market/tickers?category=spot';
     
     $ch = curl_init();
@@ -63,7 +58,6 @@ try {
         }
     }
     
-    // Получаем фиатные валюты с exchangerate-api.com
     $fiatUrl = 'https://api.exchangerate-api.com/v4/latest/USD';
     
     $ch = curl_init();
@@ -80,7 +74,6 @@ try {
         $fiatData = json_decode($fiatResponse, true);
         
         if ($fiatData && isset($fiatData['rates'])) {
-            // Добавляем фиатные валюты
             $fiatRates = [
                 'RUB/USD' => isset($fiatData['rates']['RUB']) ? 1 / $fiatData['rates']['RUB'] : 0,
                 'UAH/USD' => isset($fiatData['rates']['UAH']) ? 1 / $fiatData['rates']['UAH'] : 0,
@@ -93,7 +86,7 @@ try {
                     $allData[] = [
                         'symbol' => $symbol,
                         'last_price' => number_format($rate, 6),
-                        'price_24h_pcnt' => '0.00', // У нас нет данных об изменении за 24ч для фиата
+                        'price_24h_pcnt' => '0.00',
                         'high_24h' => null,
                         'low_24h' => null,
                         'type' => 'fiat'
@@ -103,7 +96,6 @@ try {
         }
     }
     
-    // Сортируем: сначала криптовалюты, потом фиат
     usort($allData, function($a, $b) use ($cryptoSymbols) {
         if ($a['type'] !== $b['type']) {
             return $a['type'] === 'crypto' ? -1 : 1;

@@ -1,5 +1,4 @@
 <?php
-// Простой сайт для отображения курса криптовалют и фиатных валют
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -610,7 +609,6 @@
         </div>
     </nav>
 
-    <!-- Модальное окно для отзывов -->
     <div id="reviewModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeReviewModal()">&times;</span>
@@ -635,14 +633,11 @@
 
     <div class="container">
         <div class="main-content">
-            <!-- Левая колонка: текст + обменник -->
             <div class="left-column">
-                <!-- Информационный текст -->
                 <div class="info-text">
                     Наша служба обмена работает во многих городах и странах. Чтобы мы могли оперативно проверить наличие пункта в вашем городе и помочь с оформлением заявки, напишите нам в Telegram.
                 </div>
                 
-                <!-- Обменник -->
                 <div class="exchanger-section">
                     <h2 class="section-title">Обменник валют</h2>
                 
@@ -691,7 +686,6 @@
                 </div>
                 </div>
                 
-                <!-- Преимущества -->
                 <div class="advantages-section">
                     <h3 class="advantages-title">Почему выбирают GoodXchanger?</h3>
                     <div class="advantage-intro">
@@ -738,7 +732,6 @@
                 </div>
             </div>
             
-            <!-- Курсы валют -->
             <div class="rates-section">
                 <div class="rates-header">
                     <h3 class="rates-title">Курсы обмена</h3>
@@ -754,7 +747,6 @@
     </div>
 
     <script>
-        // Локализация
         let currentLanguage = 'ru';
         
         const translations = {
@@ -847,32 +839,27 @@
         function switchLanguage(lang) {
             currentLanguage = lang;
             
-            // Обновляем активную кнопку
             document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
             document.getElementById('lang-' + lang).classList.add('active');
             
-            // Обновляем тексты
             updateTexts();
         }
         
         function updateTexts() {
             const t = translations[currentLanguage];
             
-            // Обновляем статические тексты
             document.querySelector('.info-text').textContent = t.infoText;
             document.querySelector('.section-title').textContent = t.exchangerTitle;
             document.querySelector('.rates-title').textContent = t.ratesTitle;
             document.querySelector('.advantages-title').textContent = t.advantagesTitle;
             document.querySelector('.advantage-intro').textContent = t.advantageIntro;
             
-            // Обновляем лейблы форм
             const labels = document.querySelectorAll('.input-label');
             if (labels[0]) labels[0].textContent = t.fromLabel;
             if (labels[1]) labels[1].textContent = t.toLabel;
             if (labels[2]) labels[2].textContent = t.amountLabel;
             if (labels[3]) labels[3].textContent = t.receiveLabel;
             
-            // Обновляем преимущества
             const advantages = document.querySelectorAll('.advantage-item');
             const advantageKeys = ['speed', 'security', 'rate', 'availability', 'support', 'simplicity'];
             
@@ -887,7 +874,6 @@
                 if (textEl) textEl.textContent = t[key + 'Text'];
             });
             
-            // Обновляем селекты валют
             const selectDisplays = document.querySelectorAll('.custom-select-display');
             selectDisplays.forEach(display => {
                 if (display.querySelector('span') && display.querySelector('span').textContent.includes('валюту') || display.querySelector('span').textContent.includes('Currency')) {
@@ -895,7 +881,6 @@
                 }
             });
             
-            // Обновляем кнопку Telegram
             const telegramBtn = document.querySelector('.exchange-button');
             if (telegramBtn) {
                 telegramBtn.innerHTML = `
@@ -904,7 +889,6 @@
                 `;
             }
             
-            // Обновляем форму отзывов
             const reviewBtn = document.getElementById('review-btn');
             const modalTitle = document.getElementById('modal-title');
             const nameLabel = document.getElementById('name-label');
@@ -919,7 +903,6 @@
             if (reviewLabel) reviewLabel.textContent = t.reviewLabel;
             if (submitBtn) submitBtn.textContent = t.submitBtn;
             
-            // Обновляем футер
             const footerTelegramText = document.getElementById('footer-telegram-text');
             const footerReviewText = document.getElementById('footer-review-text');
             
@@ -927,7 +910,6 @@
             if (footerReviewText) footerReviewText.textContent = t.footerReview;
         }
         
-        // Функции для модального окна отзывов
         function openReviewModal() {
             document.getElementById('reviewModal').style.display = 'block';
         }
@@ -944,13 +926,11 @@
             const telegram = document.getElementById('reviewTelegram').value;
             const review = document.getElementById('reviewText').value;
             
-            // Здесь можно добавить отправку данных на сервер
             console.log('Отзыв:', { name, telegram, review });
             
             closeReviewModal();
         }
         
-        // Закрытие модального окна при клике вне его
         window.onclick = function(event) {
             const modal = document.getElementById('reviewModal');
             if (event.target === modal) {
@@ -958,7 +938,6 @@
             }
         }
 
-        // Функция для получения данных о криптовалютах и фиатных валютах
         async function fetchCryptoData() {
             try {
                 const response = await fetch('api.php');
@@ -979,12 +958,9 @@
             }
         }
 
-        // Функция для получения иконки криптовалюты
         function getCryptoIcon(symbol) {
-            // Извлекаем символ криптовалюты (например, BTC из BTC/USDT)
             const cryptoSymbol = symbol.split('/')[0].toLowerCase();
             
-            // Используем более надежный сервис для иконок криптовалют
             const iconMap = {
                 'btc': 'https://assets.coingecko.com/coins/images/1/small/bitcoin.png',
                 'eth': 'https://assets.coingecko.com/coins/images/279/small/ethereum.png',
@@ -999,11 +975,9 @@
             return iconMap[cryptoSymbol] || null;
         }
 
-        // Функция для получения иконки фиатной валюты
         function getFiatIcon(symbol) {
             const fiatSymbol = symbol.split('/')[0].toLowerCase();
             
-            // Иконки фиатных валют - используем иконки с Flagpedia
             const fiatIconMap = {
                 'rub': 'https://flagpedia.net/data/currency/webp/c32/rub.webp',
                 'uah': 'https://flagpedia.net/data/currency/webp/c32/uah.webp',
@@ -1014,7 +988,6 @@
             return fiatIconMap[fiatSymbol] || null;
         }
 
-        // Функция для получения иконки валюты (универсальная)
         function getCurrencyIcon(symbol, type) {
             if (type === 'crypto') {
                 return getCryptoIcon(symbol);
@@ -1023,31 +996,25 @@
             }
         }
 
-        // Функция для отображения данных
         function displayCryptoData(currencies) {
             const container = document.getElementById('crypto-container');
             container.innerHTML = '';
 
-            // Фильтруем только криптовалюты для отображения в курсах
             const cryptoOnly = currencies.filter(currency => currency.type === 'crypto');
 
             cryptoOnly.forEach(currency => {
                 const iconUrl = getCryptoIcon(currency.symbol);
                 
-                // Подготавливаем данные для отображения
                 const changeClass = parseFloat(currency.price_24h_pcnt) >= 0 ? 'positive' : 'negative';
                 const changeSymbol = parseFloat(currency.price_24h_pcnt) >= 0 ? '+' : '';
                 
-                // Форматируем цену
                 const priceDisplay = '$' + parseFloat(currency.last_price).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 6});
                 
-                // Форматируем изменение цены
                 let changeDisplayText = '';
                 if (currency.price_24h_pcnt !== '0.00') {
                     changeDisplayText = `${changeSymbol}${parseFloat(currency.price_24h_pcnt).toFixed(2)}%`;
                 }
                 
-                // Форматируем мин/макс
                 let maxDisplay = '';
                 let minDisplay = '';
                 if (currency.high_24h && currency.low_24h) {
@@ -1077,10 +1044,8 @@
             });
         }
 
-        // Глобальная переменная для хранения курсов
         let currentRates = {};
 
-        // Функция для создания кастомного селекта с иконками
         function createCustomSelect(selectId, currencies) {
             const select = document.getElementById(selectId);
             const wrapper = document.createElement('div');
@@ -1172,16 +1137,13 @@
             select.parentNode.insertBefore(wrapper, select);
         }
 
-        // Функция для заполнения селектов валют
         function populateCurrencySelects(currencies) {
             const fromSelect = document.getElementById('fromCurrency');
             const toSelect = document.getElementById('toCurrency');
             
-            // Очищаем селекты
             fromSelect.innerHTML = '<option value="">Выберите валюту</option>';
             toSelect.innerHTML = '<option value="">Выберите валюту</option>';
             
-            // Заполняем селекты и сохраняем курсы
             currencies.forEach(currency => {
                 currentRates[currency.symbol] = {
                     rate: parseFloat(currency.last_price),
@@ -1199,14 +1161,12 @@
                 toSelect.appendChild(option2);
             });
             
-            // Создаем кастомные селекты с иконками только один раз
             if (!document.querySelector('.custom-select-wrapper')) {
                 createCustomSelect('fromCurrency', currencies);
                 createCustomSelect('toCurrency', currencies);
             }
         }
 
-        // Функция для расчета обмена
         function calculateExchange() {
             const fromCurrency = document.getElementById('fromCurrency').value;
             const toCurrency = document.getElementById('toCurrency').value;
@@ -1224,7 +1184,6 @@
                 return;
             }
             
-            // Получаем курсы валют
             const fromRateData = currentRates[fromCurrency];
             const toRateData = currentRates[toCurrency];
             
@@ -1233,7 +1192,6 @@
             const fromRate = fromRateData.rate;
             const toRate = toRateData.rate;
             
-            // Конвертируем через USD
             let usdAmount;
             if (fromCurrency.includes('/USD')) {
                 usdAmount = fromAmount * fromRate;
@@ -1252,16 +1210,13 @@
                 finalAmount = usdAmount;
             }
             
-            // Применяем комиссию 1.5%
-            const amountAfterCommission = finalAmount * 0.985; // Вычитаем 1.5%
+            const amountAfterCommission = finalAmount * 0.985;
             
-            // Обновляем интерфейс
             document.getElementById('toAmount').value = amountAfterCommission.toFixed(6);
             document.getElementById('exchangeRate').textContent = `1 ${fromCurrency} = ${(amountAfterCommission / fromAmount).toFixed(6)} ${toCurrency}`;
             document.getElementById('exchangeInfo').style.display = 'block';
         }
 
-        // Функция для смены валют местами
         function swapCurrencies() {
             const fromSelect = document.getElementById('fromCurrency');
             const toSelect = document.getElementById('toCurrency');
@@ -1273,7 +1228,6 @@
             calculateExchange();
         }
 
-        // Функция для выполнения обмена
         function performExchange() {
             const fromCurrency = document.getElementById('fromCurrency').value;
             const toCurrency = document.getElementById('toCurrency').value;
@@ -1287,25 +1241,20 @@
             alert(`Обмен выполнен!\n${fromAmount} ${fromCurrency} → ${document.getElementById('toAmount').value} ${toCurrency}\n\nЭто демо-версия обменника.`);
         }
 
-        // Обновляем функцию отображения данных
         const originalDisplayCryptoData = displayCryptoData;
         displayCryptoData = function(currencies) {
             originalDisplayCryptoData(currencies);
             populateCurrencySelects(currencies);
         };
 
-        // Добавляем обработчики событий
         document.getElementById('fromCurrency').addEventListener('change', calculateExchange);
         document.getElementById('toCurrency').addEventListener('change', calculateExchange);
 
-        // Загрузка данных при загрузке страницы
         fetchCryptoData();
 
-        // Обновление каждые 30 секунд
         setInterval(fetchCryptoData, 30000);
     </script>
 
-    <!-- Футер -->
     <footer class="footer">
         <div class="footer-content">
             <img src="logo.png" alt="GoodXchanger" class="footer-logo">
